@@ -1,10 +1,32 @@
 import { motion } from "framer-motion";
-import { FaReact, FaHtml5, FaCss3Alt, FaNodeJs, FaJava } from "react-icons/fa";
-import { SiJavascript, SiTypescript, SiTailwindcss, SiBootstrap, SiPython } from "react-icons/si";
+import {
+  FaReact,
+  FaHtml5,
+  FaCss3Alt,
+  FaNodeJs,
+  FaJava,
+  FaGitAlt
+} from "react-icons/fa";
+
+import {
+  SiJavascript,
+  SiTypescript,
+  SiTailwindcss,
+  SiBootstrap,
+  SiPython,
+  SiSharp,
+  SiDotnet,
+  SiMysql,
+  SiPostman,
+  SiSwagger,
+  SiGithub,
+  SiVercel
+} from "react-icons/si";
+
 import fabbro from "./assets/fabbro3D.png";
 import QRFlat from "./assets/QRFlat.png";
 import parking from "./assets/parking.png";
-
+import genexus from "./assets/genexus.png";
 const projects = [
   {
     title: "Fabbro Solutions",
@@ -212,6 +234,16 @@ export default function App() {
                 <FaNodeJs className="text-green-500" />
                 <FaJava className="text-red-500" />
                 <SiPython className="text-yellow-400" />
+                <SiDotnet />
+               <img
+                src={genexus}
+                alt="GeneXus"
+                className="w-10 h-10 object-contain"
+                />
+                
+                
+                <SiPostman />
+                <SiSwagger />
               </div>
             </div>
 
@@ -224,14 +256,24 @@ export default function App() {
               />
             </div>
 
-            <div className="bg-white/[0.06] p-7 rounded-3xl border border-white/10 backdrop-blur-xl hover:border-lime-300/30 transition">
-              <h3 className="text-xl font-bold mb-5 text-lime-300">Otros</h3>
+           <div className="bg-white/[0.06] p-7 rounded-3xl border border-white/10 backdrop-blur-xl hover:border-lime-300/30 transition">
+  <h3 className="text-xl font-bold mb-5 text-lime-300">Otros</h3>
+
+            <div className="flex items-center gap-5">
               <img
                 src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png"
                 alt="Vercel"
-                className="w-8 h-8"
+                className="w-8 h-8 object-contain"
+              />
+
+              <img
+                src="https://avatars.githubusercontent.com/u/2092016?s=200&v=4"
+                alt="xUnit"
+                className="w-10 h-10 rounded object-contain"
               />
             </div>
+            </div>
+            
           </div>
         </div>
       </section>
