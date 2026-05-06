@@ -275,7 +275,7 @@ export default function App() {
             </a>
 
             <a
-              href="/cv.pdf"
+              href="/CV.pdf"
               download
               className="bg-lime-300 text-black px-5 py-3 rounded-full hover:bg-white transition font-bold shadow-[0_0_35px_rgba(190,242,100,0.22)]"
             >
