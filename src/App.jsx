@@ -18,7 +18,7 @@ const projects = [
   {
     title: "Charlie’s Parking",
     type: "Proyecto comercial",
-    image: parking,
+    image: Parking,
     url: "https://github.com/NelsonFau/InterfaceParking",
     description:
       "Sistema pensado para gestionar disponibilidad, reservas, precios y comunicación comercial del parking.",
