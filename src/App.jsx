@@ -3,7 +3,7 @@ import { FaReact, FaHtml5, FaCss3Alt, FaNodeJs, FaJava } from "react-icons/fa";
 import { SiJavascript, SiTypescript, SiTailwindcss, SiBootstrap, SiPython } from "react-icons/si";
 import fabbro from "./assets/fabbro3D.png";
 import QRFlat from "./assets/QRFlat.png";
-import Parking from "./assets/Parking.png";
+import parking from "./assets/parking.png";
 
 const projects = [
   {
@@ -18,7 +18,7 @@ const projects = [
   {
     title: "Charlie’s Parking",
     type: "Proyecto comercial",
-    image: Parking,
+    image: parking,
     url: "https://github.com/NelsonFau/InterfaceParking",
     description:
       "Sistema pensado para gestionar disponibilidad, reservas, precios y comunicación comercial del parking.",
