@@ -395,11 +395,11 @@ const [startMenuOpen, setStartMenuOpen] = useState(false);
       initial={{ opacity: 0, y: 18, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 18, scale: 0.96 }}
-      className="absolute bottom-14 left-4 z-40 w-[520px] overflow-hidden rounded-3xl border border-lime-400/20 bg-black/80 shadow-[0_0_70px_rgba(132,204,22,0.18)] backdrop-blur-2xl"
-    >
-      <div className="grid grid-cols-[180px_1fr]">
-        <aside className="border-r border-white/10 bg-white/[0.04] p-4">
-          
+                className="absolute bottom-14 left-3 right-3 z-40 max-h-[70vh] overflow-hidden rounded-3xl border border-lime-400/20 bg-black/85 shadow-[0_0_70px_rgba(132,204,22,0.18)] backdrop-blur-2xl sm:left-4 sm:right-auto sm:w-[520px]"
+            >
+                                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2">
+                                          <aside className="border-r border-white/10 bg-white/[0.04] p-4">
+
 
           <div className="space-y-2">
             {desktopApps.map((app) => {
