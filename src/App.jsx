@@ -95,9 +95,7 @@ export default function App() {
   </a>
 </div>
 
-<div className="absolute bottom-10 left-10 hidden md:flex">
   <SystemAccess />
-          </div>
           
         </div>
       </section>

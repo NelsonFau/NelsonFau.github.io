@@ -257,21 +257,22 @@ const [startMenuOpen, setStartMenuOpen] = useState(false);
   <motion.div
     initial={{ opacity: 0, x: -30 }}
     animate={{ opacity: 1, x: 0 }}
-    className="fixed bottom-8 left-8 z-50 hidden md:block"
-  >
-    <button
-      onClick={startSystem}
-      className="
-        group relative flex items-center gap-4
-        rounded-2xl border border-lime-400/25
-        bg-black/35 px-5 py-4
-        backdrop-blur-xl
-        transition-all duration-500
-        hover:border-lime-300/70
-        hover:bg-lime-400/10
-        hover:shadow-[0_0_35px_rgba(163,230,53,0.22)]
-      "
-    >
+                  className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 md:bottom-8 md:left-8 md:translate-x-0"
+              >
+   <button
+  onClick={startSystem}
+  className="
+    group relative flex items-center gap-3
+    rounded-2xl border border-lime-400/25
+    bg-black/45 px-4 py-3
+    backdrop-blur-xl
+    transition-all duration-500
+    hover:border-lime-300/70
+    hover:bg-lime-400/10
+    hover:shadow-[0_0_35px_rgba(163,230,53,0.22)]
+    md:gap-4 md:px-5 md:py-4
+  "
+>
       <div className="absolute inset-0 rounded-2xl bg-lime-400/5 opacity-0 blur-xl transition duration-500 group-hover:opacity-100" />
 
       <span className="relative z-10 font-mono text-lg text-lime-300">
