@@ -7,7 +7,7 @@ import {
   FaJava,
   FaGitAlt
 } from "react-icons/fa";
-
+import SystemAccess from "./systemacces";
 import {
   SiJavascript,
   SiTypescript,
@@ -326,6 +326,7 @@ export default function App() {
           </div>
         </div>
       </section>
+      <SystemAccess />
 
     </main>
   );
