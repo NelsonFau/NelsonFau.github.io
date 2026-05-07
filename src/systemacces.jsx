@@ -94,15 +94,15 @@ const desktopApps = [
   files: [
     {
       type: "file",
-      name: "NelsonCV.pdf",
+      name: "CV.pdf",
     },
     {
       type: "file",
-      name: "future_projects.txt",
+      name: "Certificación Bios",
     },
     {
       type: "file",
-      name: "ideas_millonarias.txt",
+      name: "Certificación UDEMY",
     },
     {
       type: "file",
@@ -1191,32 +1191,206 @@ function FakeTerminal({ setActiveWindow, desktopApps }) {
 }
 
 function FileExplorer({ files = [] }) {
+  const [openFile, setOpenFile] = useState(null);
+    const [history, setHistory] = useState([]);
+    
+  const fileContents = {
+    "CV.pdf": {
+      type: "pdf",
+      src: "/CV.pdf",
+    },
+   "Certificación Bios": {
+  type: "pdf",
+  src: "/CertificacionBios.pdf",
+      },
+   
+    "Certificación UDEMY": {
+  type: "image",
+  src: "/componente.png",
+      },
+    "README.txt": {
+      type: "text",
+      content: `NELSON OS
+
+Bienvenido a mi portfolio interactivo.
+
+Este módulo simula un sistema operativo dentro de una web.
+La idea es mostrar proyectos, documentos, juegos y experiencias visuales de una forma distinta.`,
+    },
+    "architecture_notes.docx": {
+      type: "text",
+      content: `ARCHITECTURE NOTES
+
+Stack:
+- React
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Lucide React.`,
+    },
+    ".gitignore": {
+      type: "text",
+      content: `node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+coverage/
+.cache/
+.vscode/`,
+    },
+    "ideas.txt": {
+      type: "text",
+      content: `Ideas de proyectos:
+
+- Webs institucionales
+- Sistemas internos
+- Automatizaciones
+- Integraciones con APIs
+- Herramientas para pequeños negocios`,
+    },
+  };
+
+  const handleOpenFile = (file) => {
+  if (file.type === "folder") return;
+
+  const fileData = fileContents[file.name] || {
+    type: "text",
+    content: `No hay contenido cargado para ${file.name}`,
+  };
+
+  setHistory((prev) => [...prev, openFile]);
+
+  setOpenFile({
+    name: file.name,
+    ...fileData,
+  });
+    };
+    
+
+    const goBack = () => {
+  if (history.length === 0) {
+    setOpenFile(null);
+    return;
+  }
+
+  const previous = history[history.length - 1];
+
+  setHistory((prev) => prev.slice(0, -1));
+  setOpenFile(previous);
+};
+
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {files.map((file, index) => {
-        const isFolder = file.type === "folder";
+      <>
+          
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {files.map((file, index) => {
+          const isFolder = file.type === "folder";
 
-        return (
-          <button
-            key={index}
-            className="group flex flex-col items-center rounded-2xl border border-white/10 bg-black/40 p-5 transition hover:border-lime-400/40 hover:bg-lime-400/10"
-          >
-            <div
-              className={`flex h-16 w-16 items-center justify-center rounded-2xl ${
-                isFolder
-                  ? "bg-lime-400/10 text-lime-300"
-                  : "bg-white/5 text-white/70"
-              }`}
+            return (
+              
+            <button
+              key={index}
+              onDoubleClick={() => handleOpenFile(file)}
+              onClick={() => {
+                if (!isFolder) handleOpenFile(file);
+              }}
+              className="group flex flex-col items-center rounded-2xl border border-white/10 bg-black/40 p-5 transition hover:border-lime-400/40 hover:bg-lime-400/10"
             >
-              {isFolder ? <Folder size={30} /> : <FileText size={28} />}
-            </div>
+              <div
+                className={`flex h-16 w-16 items-center justify-center rounded-2xl ${
+                  isFolder
+                    ? "bg-lime-400/10 text-lime-300"
+                    : "bg-white/5 text-white/70"
+                }`}
+              >
+                {isFolder ? <Folder size={30} /> : <FileText size={28} />}
+              </div>
 
-            <span className="mt-3 text-center font-mono text-xs text-white/70 group-hover:text-lime-300">
-              {file.name}
-            </span>
-          </button>
-        );
-      })}
+              <span className="mt-3 text-center font-mono text-xs text-white/70 group-hover:text-lime-300">
+                {file.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence>
+        {openFile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 20 }}
+            className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+          >
+            <div className="w-full max-w-4xl overflow-hidden rounded-3xl border border-lime-400/25 bg-[#050805] shadow-[0_0_80px_rgba(132,204,22,0.22)]">
+              <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.04] px-5 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <span className="h-3 w-3 rounded-full bg-red-400" />
+                    <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                    <span className="h-3 w-3 rounded-full bg-lime-400" />
+                  </div>
+
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-lime-300">
+                    {openFile.name}
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => setOpenFile(null)}
+                  className="text-white/50 transition hover:text-white"
+                >
+                  <X size={17} />
+                </button>
+              </div>
+
+             <div className="max-h-[75vh] overflow-auto">
+
+  <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+    
+    <button
+      onClick={goBack}
+      className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/40 text-white/60 transition hover:border-lime-400 hover:text-lime-300"
+    >
+      ←
+    </button>
+
+    <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/30 px-3 py-2 font-mono text-xs text-white/45">
+      <Folder size={14} className="text-lime-300" />
+
+      NelsonOS / Documents / {openFile.name}
     </div>
+  </div>
+
+  <div className="p-5">
+    {openFile.type === "pdf" ? (
+  <iframe
+    src={openFile.src}
+    title={openFile.name}
+    className="h-[68vh] w-full rounded-2xl bg-white"
+  />
+) : openFile.type === "image" ? (
+  <div className="flex justify-center">
+    <img
+      src={openFile.src}
+      alt={openFile.name}
+      className="max-h-[68vh] rounded-2xl border border-white/10 object-contain shadow-[0_0_40px_rgba(132,204,22,0.12)]"
+    />
+  </div>
+) : (
+  <pre className="min-h-[320px] whitespace-pre-wrap rounded-2xl border border-white/10 bg-black/60 p-5 font-mono text-sm leading-relaxed text-white/70">
+    {openFile.content}
+                                              </pre>
+                                              
+
+    )}
+  </div>
+</div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
