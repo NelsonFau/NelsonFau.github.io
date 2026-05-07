@@ -86,19 +86,17 @@ export default function App() {
             Construyo soluciones de software, automatizaciones e integraciones que simplifican procesos y resuelven necesidades reales de negocio.
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-4">
+         <div className="mt-8 flex justify-center">
   <a
     href="#projects"
     className="bg-lime-300 text-black px-7 py-3 rounded-full font-bold hover:bg-white transition shadow-[0_0_40px_rgba(190,242,100,0.25)]"
   >
     Ver proyectos
   </a>
+</div>
 
-  <div className="flex items-center gap-2 text-xs font-mono text-lime-300/70">
-    <span className="h-2 w-2 rounded-full bg-lime-300 animate-pulse" />
-
-    <SystemAccess />
-  </div>
+<div className="absolute bottom-10 left-10 hidden md:flex">
+  <SystemAccess />
           </div>
           
         </div>
@@ -338,3 +336,4 @@ export default function App() {
     </main>
   );
 };
+

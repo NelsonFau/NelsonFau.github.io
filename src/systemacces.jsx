@@ -253,27 +253,46 @@ const [startMenuOpen, setStartMenuOpen] = useState(false);
 
   return (
     <>
-      {!systemMode && !booting && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2"
-        >
-          <div className="rounded-2xl border border-lime-400/30 bg-black/70 px-5 py-3 backdrop-blur-xl shadow-[0_0_35px_rgba(163,230,53,0.18)]">
-            <div className="mb-2 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-lime-300">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-lime-400" />
-              System Status: Online
-            </div>
+{!systemMode && !booting && (
+  <motion.div
+    initial={{ opacity: 0, x: -30 }}
+    animate={{ opacity: 1, x: 0 }}
+    className="fixed bottom-8 left-8 z-50 hidden md:block"
+  >
+    <button
+      onClick={startSystem}
+      className="
+        group relative flex items-center gap-4
+        rounded-2xl border border-lime-400/25
+        bg-black/35 px-5 py-4
+        backdrop-blur-xl
+        transition-all duration-500
+        hover:border-lime-300/70
+        hover:bg-lime-400/10
+        hover:shadow-[0_0_35px_rgba(163,230,53,0.22)]
+      "
+    >
+      <div className="absolute inset-0 rounded-2xl bg-lime-400/5 opacity-0 blur-xl transition duration-500 group-hover:opacity-100" />
 
-            <button
-              onClick={startSystem}
-              className="rounded-full bg-lime-400 px-6 py-2 text-xs font-black uppercase tracking-widest text-black transition hover:scale-105 hover:bg-lime-300"
-            >
-              Access System
-            </button>
-          </div>
-        </motion.div>
-      )}
+      <span className="relative z-10 font-mono text-lg text-lime-300">
+        &gt;_
+      </span>
+
+      <div className="relative z-10 text-left">
+        <p className="text-[10px] uppercase tracking-[0.35em] text-lime-300/45">
+          Interactive
+        </p>
+
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-200">
+          Access System
+        </p>
+      </div>
+
+      <span className="relative z-10 h-2 w-2 rounded-full bg-lime-400 animate-pulse" />
+    </button>
+  </motion.div>
+          )}
+          
 
       <AnimatePresence>
         {booting && (
