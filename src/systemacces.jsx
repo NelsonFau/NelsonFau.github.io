@@ -136,7 +136,7 @@ export default function SystemAccess() {
   const [board, setBoard] = useState(initialBoard);
   const [isXTurn, setIsXTurn] = useState(true);
   const [winner, setWinner] = useState(null);
-
+const [startMenuOpen, setStartMenuOpen] = useState(false);
   const startSystem = () => {
     setBooting(true);
     setVisibleLines([]);
@@ -289,9 +289,7 @@ export default function SystemAccess() {
             <div className="relative w-[90%] max-w-2xl rounded-3xl border border-lime-400/20 bg-black/80 p-8 font-mono shadow-[0_0_60px_rgba(132,204,22,0.2)]">
               <div className="mb-6 flex items-center gap-3 border-b border-lime-400/20 pb-4">
                 <Terminal size={18} />
-                <span className="text-xs uppercase tracking-[0.3em]">
-                  Nelson OS
-                </span>
+           
               </div>
 
                           <div className="space-y-3 text-left text-sm">
@@ -332,7 +330,7 @@ export default function SystemAccess() {
               <div className="flex items-center gap-3">
                 <div className="h-3 w-3 animate-pulse rounded-full bg-lime-400" />
                 <span className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-lime-300">
-                  Nelson OS
+                  System OS
                 </span>
               </div>
 
@@ -391,11 +389,87 @@ export default function SystemAccess() {
             </AnimatePresence>
 
             <div className="absolute bottom-0 left-0 right-0 z-30 flex h-12 items-center justify-between border-t border-white/10 bg-black/60 px-4 backdrop-blur-xl">
-              <div className="flex items-center gap-3">
-                <button className="flex h-8 items-center gap-2 rounded-xl border border-lime-400/30 bg-lime-400/10 px-3 font-mono text-xs text-lime-300">
-                  <Settings size={14} />
-                  Start
+              <AnimatePresence>
+  {startMenuOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: 18, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 18, scale: 0.96 }}
+      className="absolute bottom-14 left-4 z-40 w-[520px] overflow-hidden rounded-3xl border border-lime-400/20 bg-black/80 shadow-[0_0_70px_rgba(132,204,22,0.18)] backdrop-blur-2xl"
+    >
+      <div className="grid grid-cols-[180px_1fr]">
+        <aside className="border-r border-white/10 bg-white/[0.04] p-4">
+          
+
+          <div className="space-y-2">
+            {desktopApps.map((app) => {
+              const Icon = app.icon;
+
+              return (
+                <button
+                  key={app.id}
+                  onClick={() => {
+                    setActiveWindow(app);
+                    setStartMenuOpen(false);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-white/70 transition hover:bg-lime-400/10 hover:text-lime-300"
+                >
+                  <Icon size={18} />
+                  {app.title}
                 </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <main className="p-4">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-white/35">
+            Acceso rápido
+          </p>
+
+          <div className="grid grid-cols-2 gap-3">
+            {desktopApps.slice(0, 4).map((app) => {
+              const Icon = app.icon;
+
+              return (
+                <button
+                  key={app.id}
+                  onClick={() => {
+                    setActiveWindow(app);
+                    setStartMenuOpen(false);
+                  }}
+                  className="flex h-24 flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.05] p-3 text-left transition hover:border-lime-400/40 hover:bg-lime-400/10"
+                >
+                  <Icon size={24} className="text-lime-300" />
+
+                  <span className="font-mono text-xs text-white/70">
+                    {app.title}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          
+        </main>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+                          
+                          <div className="flex items-center gap-3">
+<button
+  onClick={() => setStartMenuOpen((prev) => !prev)}
+  className="group flex h-9 items-center gap-2 rounded-xl border border-lime-400/20 bg-black/50 px-4 font-mono text-xs uppercase tracking-[0.2em] text-lime-300 backdrop-blur-xl transition hover:border-lime-400 hover:bg-lime-400/10"
+>
+  <Settings
+    size={15}
+    className="transition duration-300 group-hover:rotate-90"
+  />
+
+  Inicio
+</button>
+                              
 
                 {activeWindow && (
                   <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-white/70">
@@ -483,12 +557,16 @@ function SystemWindow({
             setSelectedGame={setSelectedGame}
           />
        ) : activeWindow.id === "computer" ? (
-  <ComputerInfo />
-) : activeWindow.terminal ? (
-  <FakeTerminal />
-) : activeWindow.explorer ? (
-  <FileExplorer files={activeWindow.files} />
-) : (                       
+            <ComputerInfo />
+            ) : activeWindow.terminal ? (
+            <FakeTerminal
+  setActiveWindow={setActiveWindow}
+  desktopApps={desktopApps}
+                          />
+                          
+            ) : activeWindow.explorer ? (
+            <FileExplorer files={activeWindow.files} />
+            ) : (                       
           <pre className="whitespace-pre-wrap rounded-2xl border border-white/10 bg-black/50 p-5 font-mono text-sm leading-relaxed text-white/70">
             {activeWindow.content}
           </pre>
@@ -1014,42 +1092,99 @@ function MemoryGame() {
   );
 }
 
-function FakeTerminal() {
+function FakeTerminal({ setActiveWindow, desktopApps }) {
+  const [history, setHistory] = useState([
+    "Nelson OS Terminal iniciado.",
+    "Escribí 'help' para ver comandos disponibles.",
+  ]);
+  const [command, setCommand] = useState("");
+
+  const runCommand = (e) => {
+    e.preventDefault();
+
+    const cmd = command.trim().toLowerCase();
+
+    if (!cmd) return;
+
+    if (cmd === "clear") {
+      setHistory([]);
+      setCommand("");
+      return;
+    }
+
+    let response = "";
+
+    if (cmd === "help") {
+      response =
+        "Comandos disponibles:\nhelp\nclear\nprojects\ngames\nopen games\nopen pc\nopen projects\nopen documents";
+    } else if (cmd === "projects") {
+      response =
+        "Proyectos encontrados:\n- Fabbro Solutions\n- QRFlat\n- Charlie's Parking\n- Automatizaciones";
+    } else if (cmd === "games") {
+      response = "Juegos disponibles:\n- Ta-Te-Ti\n- Memory";
+    } else if (cmd === "open games") {
+      const app = desktopApps.find((item) => item.id === "games");
+      setActiveWindow(app);
+      response = "Abriendo Games Lab...";
+    } else if (cmd === "open pc" || cmd === "open computer") {
+      const app = desktopApps.find((item) => item.id === "computer");
+      setActiveWindow(app);
+      response = "Abriendo Este equipo...";
+    } else if (cmd === "open projects") {
+      const app = desktopApps.find((item) => item.id === "projects");
+      setActiveWindow(app);
+      response = "Abriendo Mis proyectos...";
+    } else if (cmd === "open documents") {
+      const app = desktopApps.find((item) => item.id === "documents");
+      setActiveWindow(app);
+      response = "Abriendo Documentos...";
+    } else {
+      response = `Comando no reconocido: ${cmd}\nProbá escribiendo 'help'.`;
+    }
+
+    setHistory((prev) => [...prev, `C:\\NelsonOS> ${command}`, response]);
+    setCommand("");
+  };
+
   return (
     <div className="w-full rounded-2xl border border-lime-400/20 bg-black/80 p-5 font-mono text-sm text-lime-300">
       <div className="mb-4 flex items-center gap-2 border-b border-lime-400/10 pb-3">
         <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
         <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
         <span className="h-2.5 w-2.5 rounded-full bg-lime-400" />
+
         <span className="ml-3 text-xs uppercase tracking-[0.25em] text-white/40">
           nelson-os terminal
         </span>
       </div>
 
-      <div className="space-y-3 text-left">
-        <p>
-          <span className="text-lime-500">C:\NelsonOS&gt;</span> npm run dev
-        </p>
-        <p className="pl-4 text-white/55">VITE v7.3.1 ready in 428 ms</p>
+      <div className="max-h-[340px] space-y-3 overflow-y-auto text-left">
+        {history.map((line, index) => (
+          <pre
+            key={index}
+            className={`whitespace-pre-wrap ${
+              line.startsWith("C:\\NelsonOS>")
+                ? "text-lime-400"
+                : "text-white/60"
+            }`}
+          >
+            {line}
+          </pre>
+        ))}
 
-        <p>
-          <span className="text-lime-500">C:\NelsonOS&gt;</span> loading modules
-        </p>
-        <p className="pl-4 text-white/55">✓ games.lab.module loaded</p>
-        <p className="pl-4 text-white/55">✓ virtual.machine.interface active</p>
-        <p className="pl-4 text-white/55">✓ portfolio.runtime online</p>
+        <form onSubmit={runCommand} className="flex items-center gap-2 pt-2">
+          <span className="text-lime-500">C:\NelsonOS&gt;</span>
 
-        <p>
-          <span className="text-lime-500">C:\NelsonOS&gt;</span> status
-        </p>
-        <p className="pl-4 text-lime-300">
-          SYSTEM ONLINE · INTERACTIVE MODE ACTIVE
-        </p>
+          <input
+            value={command}
+            onChange={(e) => setCommand(e.target.value)}
+            autoFocus
+            className="flex-1 bg-transparent text-lime-300 outline-none placeholder:text-white/25"
+            placeholder="help"
+          />
 
-        <p className="pt-2">
-          <span className="text-lime-500">C:\NelsonOS&gt;</span>{" "}
-          <span className="inline-block h-4 w-2 animate-pulse bg-lime-300 align-middle" />
-        </p>
+          <span className="h-4 w-2 animate-pulse bg-lime-300" />
+        </form>
       </div>
     </div>
   );
