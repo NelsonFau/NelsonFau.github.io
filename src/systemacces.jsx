@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
 import {
-    Terminal,
-    Power,
-    Folder,
-    Gamepad2,
-    Code2,
-    User,
-    Mail,
-    Settings,
-    X,
-    Minimize2,
-    RotateCcw,
-    Rocket,
-    Monitor,
-FileText,
-Trash2,
-Image,
-HardDrive,
-Globe,
-Layers,
-Puzzle,
+  Power,
+  Folder,
+  Gamepad2,
+  Code2,
+  Settings,
+  X,
+  Minimize2,
+  RotateCcw,
+  Rocket,
+  Monitor,
+  FileText,
+  Trash2,
+  Image,
+  HardDrive,
+  Globe,
+  Layers,
+    Puzzle,
+  Terminal
 } from "lucide-react";
-
 import { motion, AnimatePresence } from "framer-motion";
 
 const bootLines = [
@@ -47,154 +44,95 @@ const winningCombos = [
 ];
 
 const desktopApps = [
+  { id: "computer", title: "Este equipo", icon: Monitor },
+  { id: "games", title: "Juegos", icon: Gamepad2, game: true },
   {
-    id: "computer",
-    title: "Este equipo",
-    icon: Monitor,
-    explorer: true,
-  },
+  id: "Terminal",
+  title: "Terminal",
+  icon: Terminal,
+  terminal: true,
+    },
+
+ {
+  id: "projects",
+  title: "Mis proyectos",
+  icon: Folder,
+  explorer: true,
+  files: [
+    {
+      type: "folder",
+      name: "Fabbro Solutions",
+    },
+    {
+      type: "folder",
+      name: "QRFlat",
+    },
+    {
+      type: "folder",
+      name: "Charlie's Parking",
+    },
+    {
+      type: "folder",
+      name: "Automatizaciones",
+    },
+    {
+      type: "folder",
+      name: "Webs institucionales",
+    },
+    {
+      type: "file",
+      name: "ideas.txt",
+    },
+  ],
+    },
+
   {
-    id: "games",
-    title: "Juegos",
-    icon: Gamepad2,
-    game: true,
-  },
-  {
-    id: "photos",
-    title: "Fotos",
-    icon: Image,
-    content:
-      "Acá podés poner fotos tuyas, hobbies, lugares, familia, viajes o cosas que muestren personalidad sin repetir el CV.",
-  },
-  {
-    id: "projects",
-    title: "Mis proyectos",
-    icon: Folder,
-    content:
-      "Fabbro Solutions\nQRFlat\nCharlie's Parking\nAutomatizaciones\nWebs institucionales",
-  },
-  {
-    id: "documents",
-    title: "Documentos",
-    icon: FileText,
-    content:
-      "CV.pdf\nNotas de proyectos.txt\nIdeas futuras.txt\nREADME.txt",
-  },
+  id: "documents",
+  title: "Documentos",
+  icon: FileText,
+  explorer: true,
+  files: [
+    {
+      type: "file",
+      name: "NelsonCV.pdf",
+    },
+    {
+      type: "file",
+      name: "future_projects.txt",
+    },
+    {
+      type: "file",
+      name: "ideas_millonarias.txt",
+    },
+    {
+      type: "file",
+      name: "README.txt",
+    },
+    {
+      type: "file",
+      name: "architecture_notes.docx",
+    },
+    {
+      type: "file",
+      name: ".gitignore",
+    },
+  ],
+},
   {
     id: "trash",
     title: "Papelera",
     icon: Trash2,
-    content:
-      "No hay archivos eliminados.\n\nBueno... salvo algunas malas ideas de diseño.",
+    content: "No hay archivos eliminados.\n\nBueno... salvo algunas malas ideas.",
   },
 ];
-function VirtualExplorer() {
-  const quickAccess = [
-    "Escritorio",
-    "Descargas",
-    "Documentos",
-    "Imágenes",
-    "Música",
-    "Videos",
-  ];
-
-  const drives = [
-    {
-      name: "Disco local (C:)",
-      detail: "Sistema operativo virtual",
-      percent: "64%",
-    },
-    {
-      name: "Portfolio Drive (D:)",
-      detail: "Proyectos, juegos y experimentos",
-      percent: "38%",
-    },
-  ];
-
-  return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#080b08]">
-      <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-3 font-mono text-xs text-white/60">
-        <span className="text-lime-300">Este equipo</span>
-      </div>
-
-      <div className="grid min-h-[330px] grid-cols-[150px_1fr]">
-        <aside className="border-r border-white/10 bg-black/30 p-3 font-mono text-xs text-white/60">
-          <p className="mb-3 text-lime-300">Acceso rápido</p>
-
-          <div className="space-y-2">
-            {quickAccess.map((item) => (
-              <button
-                key={item}
-                className="block w-full rounded-lg px-3 py-2 text-left transition hover:bg-lime-400/10 hover:text-lime-300"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </aside>
-
-        <main className="p-4">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-white/40">
-            Carpetas
-          </p>
-
-          <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {quickAccess.map((folder) => (
-              <button
-                key={folder}
-                className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 p-3 text-left text-sm text-white/70 transition hover:border-lime-400/40 hover:bg-lime-400/10 hover:text-lime-300"
-              >
-                <Folder size={18} />
-                {folder}
-              </button>
-            ))}
-          </div>
-
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-white/40">
-            Dispositivos y unidades
-          </p>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            {drives.map((drive) => (
-              <div
-                key={drive.name}
-                className="rounded-xl border border-white/10 bg-black/30 p-4"
-              >
-                <div className="mb-3 flex items-center gap-3">
-                  <HardDrive size={20} className="text-lime-300" />
-                  <div>
-                    <p className="text-sm font-bold text-white/80">
-                      {drive.name}
-                    </p>
-                    <p className="text-xs text-white/40">{drive.detail}</p>
-                  </div>
-                </div>
-
-                <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                  <div
-                    className="h-full rounded-full bg-lime-400"
-                    style={{ width: drive.percent }}
-                  />
-                </div>
-
-                <p className="mt-2 font-mono text-[10px] text-white/40">
-                  {drive.percent} usado
-                </p>
-              </div>
-            ))}
-          </div>
-        </main>
-      </div>
-    </div>
-  );
-}
 
 export default function SystemAccess() {
   const [booting, setBooting] = useState(false);
   const [systemMode, setSystemMode] = useState(false);
   const [visibleLines, setVisibleLines] = useState([]);
   const [activeWindow, setActiveWindow] = useState(null);
-    const [selectedGame, setSelectedGame] = useState("tictactoe");
+
+  const [selectedGame, setSelectedGame] = useState("tictactoe");
   const [board, setBoard] = useState(initialBoard);
   const [isXTurn, setIsXTurn] = useState(true);
   const [winner, setWinner] = useState(null);
@@ -235,94 +173,69 @@ export default function SystemAccess() {
     }
 
     if (newBoard.every(Boolean)) return "draw";
-
     return null;
   };
+
   const getBestMachineMove = (currentBoard) => {
-  const emptyCells = currentBoard
-    .map((cell, index) => (cell === null ? index : null))
-    .filter((cell) => cell !== null);
-
-  // 1. La máquina intenta ganar
-  for (let index of emptyCells) {
-    const testBoard = [...currentBoard];
-    testBoard[index] = "O";
-
-    if (checkWinner(testBoard) === "O") {
-      return index;
-    }
-  }
-
-  // 2. La máquina bloquea al jugador
-  for (let index of emptyCells) {
-    const testBoard = [...currentBoard];
-    testBoard[index] = "X";
-
-    if (checkWinner(testBoard) === "X") {
-      return index;
-    }
-  }
-
-  // 3. Toma el centro
-  if (currentBoard[4] === null) {
-    return 4;
-  }
-
-  // 4. Toma una esquina
-  const corners = [0, 2, 6, 8].filter((index) => currentBoard[index] === null);
-
-  if (corners.length > 0) {
-    return corners[Math.floor(Math.random() * corners.length)];
-  }
-
-  // 5. Cualquier celda libre
-  return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-    };
-    
-   
-
- const handleCellClick = (index) => {
-  if (board[index] || winner || !isXTurn) return;
-
-  const newBoard = [...board];
-  newBoard[index] = "X";
-
-  setBoard(newBoard);
-
-  const result = checkWinner(newBoard);
-
-  if (result) {
-    setWinner(result);
-    return;
-  }
-
-  setIsXTurn(false);
-
-  setTimeout(() => {
-    const emptyCells = newBoard
-      .map((cell, i) => (cell === null ? i : null))
+    const emptyCells = currentBoard
+      .map((cell, index) => (cell === null ? index : null))
       .filter((cell) => cell !== null);
 
-    if (emptyCells.length === 0) return;
-
-    const bestMove = getBestMachineMove(newBoard);
-
-const machineBoard = [...newBoard];
-      machineBoard[bestMove] = "O";
-      
-
-    setBoard(machineBoard);
-
-    const machineResult = checkWinner(machineBoard);
-
-    if (machineResult) {
-      setWinner(machineResult);
-    } else {
-      setIsXTurn(true);
+    for (let index of emptyCells) {
+      const testBoard = [...currentBoard];
+      testBoard[index] = "O";
+      if (checkWinner(testBoard) === "O") return index;
     }
-  }, 500);
-    };
-    
+
+    for (let index of emptyCells) {
+      const testBoard = [...currentBoard];
+      testBoard[index] = "X";
+      if (checkWinner(testBoard) === "X") return index;
+    }
+
+    if (currentBoard[4] === null) return 4;
+
+    const corners = [0, 2, 6, 8].filter((index) => currentBoard[index] === null);
+    if (corners.length > 0) {
+      return corners[Math.floor(Math.random() * corners.length)];
+    }
+
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  };
+
+  const handleCellClick = (index) => {
+    if (board[index] || winner || !isXTurn) return;
+
+    const newBoard = [...board];
+    newBoard[index] = "X";
+    setBoard(newBoard);
+
+    const result = checkWinner(newBoard);
+    if (result) {
+      setWinner(result);
+      return;
+    }
+
+    setIsXTurn(false);
+
+    setTimeout(() => {
+      const emptyCells = newBoard.filter((cell) => cell === null);
+      if (emptyCells.length === 0) return;
+
+      const bestMove = getBestMachineMove(newBoard);
+      const machineBoard = [...newBoard];
+      machineBoard[bestMove] = "O";
+
+      setBoard(machineBoard);
+
+      const machineResult = checkWinner(machineBoard);
+      if (machineResult) {
+        setWinner(machineResult);
+      } else {
+        setIsXTurn(true);
+      }
+    }, 500);
+  };
 
   const resetGame = () => {
     setBoard(initialBoard);
@@ -381,18 +294,23 @@ const machineBoard = [...newBoard];
                 </span>
               </div>
 
-              <div className="space-y-3 text-sm">
-                {visibleLines.map((line, index) => (
+                          <div className="space-y-3 text-left text-sm">
+                              {visibleLines.map((line, index) => (
                   <motion.p
-                    key={index}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                  >
+  key={index}
+  initial={{ opacity: 0, x: -12 }}
+  animate={{ opacity: 1, x: 0 }}
+  className="pl-2"
+                                  >
+                                      
                     <span className="text-lime-500">~/system $</span> {line}
                   </motion.p>
                 ))}
 
-                <span className="inline-block h-4 w-2 animate-pulse bg-lime-300" />
+               <div className="pl-2">
+  <span className="inline-block h-4 w-2 animate-pulse bg-lime-300" />
+                              </div>
+                              
               </div>
             </div>
           </motion.div>
@@ -453,29 +371,22 @@ const machineBoard = [...newBoard];
                 })}
               </div>
 
-              <div className="absolute bottom-6 right-6 hidden max-w-sm rounded-3xl border border-lime-400/20 bg-black/50 p-5 font-mono text-xs text-white/60 backdrop-blur-xl md:block">
-                <p className="mb-2 text-lime-300">SYSTEM MESSAGE</p>
-                <p>
-                  Bienvenido al modo interactivo. Abrí módulos, explorá proyectos
-                  y jugá dentro del portfolio.
-                </p>
-              </div>
+              
             </div>
 
             <AnimatePresence>
               {activeWindow && (
                 <SystemWindow
-                activeWindow={activeWindow}
-                setActiveWindow={setActiveWindow}
-                board={board}
-                isXTurn={isXTurn}
-                winner={winner}
-                handleCellClick={handleCellClick}
-                resetGame={resetGame}
-                selectedGame={selectedGame}
-                setSelectedGame={setSelectedGame}
-                              />
-                              
+                  activeWindow={activeWindow}
+                  setActiveWindow={setActiveWindow}
+                  board={board}
+                  isXTurn={isXTurn}
+                  winner={winner}
+                  handleCellClick={handleCellClick}
+                  resetGame={resetGame}
+                  selectedGame={selectedGame}
+                  setSelectedGame={setSelectedGame}
+                />
               )}
             </AnimatePresence>
 
@@ -492,10 +403,6 @@ const machineBoard = [...newBoard];
                   </div>
                 )}
               </div>
-
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">
-                Interactive Portfolio
-              </div>
             </div>
           </motion.section>
         )}
@@ -504,25 +411,28 @@ const machineBoard = [...newBoard];
   );
 }
 
-    function SystemWindow({
-    activeWindow,
-    setActiveWindow,
-    board,
-    isXTurn,
-    winner,
-    handleCellClick,
-    resetGame,
-    selectedGame,
-    setSelectedGame,
-    })  {
+function SystemWindow({
+  activeWindow,
+  setActiveWindow,
+  board,
+  isXTurn,
+  winner,
+  handleCellClick,
+  resetGame,
+  selectedGame,
+  setSelectedGame,
+}) {
   const ActiveIcon = activeWindow.icon;
+  const isLargeWindow = activeWindow.id === "computer" || activeWindow.game;
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.92, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.92, y: 30 }}
-      className="absolute left-1/2 top-1/2 z-40 w-[92%] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border border-lime-400/25 bg-[#050805]/90 shadow-[0_0_80px_rgba(132,204,22,0.18)] backdrop-blur-2xl"
+      className={`absolute left-1/2 top-1/2 z-40 w-[94vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border border-lime-400/25 bg-[#050805]/90 shadow-[0_0_80px_rgba(132,204,22,0.18)] backdrop-blur-2xl ${
+        isLargeWindow ? "max-w-5xl" : "max-w-2xl"
+      }`}
     >
       <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.04] px-5 py-3">
         <div className="flex items-center gap-3">
@@ -548,15 +458,15 @@ const machineBoard = [...newBoard];
         </div>
       </div>
 
-      <div className="min-h-[260px] p-6">
+      <div className="max-h-[78vh] overflow-y-auto p-5 sm:p-6">
         <div className="mb-5 flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-lime-400/10 text-lime-300">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-lime-400/10 text-lime-300 sm:h-14 sm:w-14">
             <ActiveIcon size={26} />
           </div>
 
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-lime-400">
-              Module
+              Módulo
             </p>
             <h3 className="text-2xl font-black">{activeWindow.title}</h3>
           </div>
@@ -564,22 +474,312 @@ const machineBoard = [...newBoard];
 
         {activeWindow.game ? (
           <GamesLab
-  board={board}
-  isXTurn={isXTurn}
-  winner={winner}
-  handleCellClick={handleCellClick}
-  resetGame={resetGame}
-  selectedGame={selectedGame}
-  setSelectedGame={setSelectedGame}
-                  />
-                  
-        ) : (
+            board={board}
+            isXTurn={isXTurn}
+            winner={winner}
+            handleCellClick={handleCellClick}
+            resetGame={resetGame}
+            selectedGame={selectedGame}
+            setSelectedGame={setSelectedGame}
+          />
+       ) : activeWindow.id === "computer" ? (
+  <ComputerInfo />
+) : activeWindow.terminal ? (
+  <FakeTerminal />
+) : activeWindow.explorer ? (
+  <FileExplorer files={activeWindow.files} />
+) : (                       
           <pre className="whitespace-pre-wrap rounded-2xl border border-white/10 bg-black/50 p-5 font-mono text-sm leading-relaxed text-white/70">
             {activeWindow.content}
           </pre>
         )}
       </div>
     </motion.div>
+  );
+}
+
+function ComputerInfo() {
+  const specs = [
+    {
+      label: "Procesador",
+      value: "Creative Logic Core",
+      detail: "8 procesos activos",
+      metric: "37%",
+      color: "lime",
+      footer: "Velocidad 3.64 GHz · Temp. 43°C",
+    },
+    {
+      label: "Memoria",
+      value: "16 GB Runtime Memory",
+      detail: "React modules loaded",
+      metric: "63%",
+      color: "purple",
+      footer: "En uso 10.1 GB · Disponible 5.9 GB",
+    },
+    {
+      label: "Motor gráfico",
+      value: "Web Interface Renderer",
+      detail: "Framer Motion + Tailwind UI",
+      metric: "71%",
+      color: "lime",
+      footer: "WebGL · Renderer activo · 60 FPS",
+    },
+    {
+      label: "Red",
+      value: "Connection Stable",
+      detail: "Latencia estable y rendimiento óptimo",
+      metric: "24%",
+      color: "lime",
+      footer: "Descarga 48.2 Mbps · Subida 18.7 Mbps",
+    },
+    {
+      label: "Almacenamiento",
+      value: "Portfolio Drive (D:)",
+      detail: "Proyectos, juegos y experimentos",
+      metric: "42%",
+      color: "lime",
+      footer: "196 GB usados · 465 GB disponibles",
+      storage: true,
+    },
+    {
+      label: "Uptime",
+      value: "04h 22m 18s",
+      detail: "Tiempo activo del sistema",
+      metric: null,
+      color: "lime",
+      footer: "Inicio: 06/05/2026 18:08:12",
+      bars: true,
+    },
+  ];
+
+  return (
+    <div className="space-y-5">
+      <div className="rounded-2xl border border-lime-400/20 bg-black/50 p-5">
+        <p className="font-mono text-xs uppercase tracking-[0.35em] text-lime-400">
+          Información del sistema
+        </p>
+
+        <h3 className="mt-3 text-2xl font-black text-white sm:text-3xl">
+        Virtual Machine
+        </h3>
+
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
+          Entorno interactivo ejecutándose dentro del portfolio. Sistema diseñado
+          para explorar juegos, proyectos y experiencias visuales livianas.
+        </p>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <MiniStatus label="Estado" value="Online" />
+          <MiniStatus label="Build" value="2026.05" />
+          <MiniStatus label="Modo" value="Interactive" />
+        </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        {specs.map((item) => (
+          <PerformanceCard key={item.label} item={item} />
+        ))}
+      </div>
+
+      <div className="rounded-2xl border border-lime-400/20 bg-lime-400/5 p-4 font-mono text-xs text-white/60">
+        <p className="mb-2 text-lime-300">Procesos activos</p>
+        <p>react.runtime.exe</p>
+        <p>games.lab.module</p>
+        <p>portfolio.interface</p>
+        <p>visual.transition.engine</p>
+      </div>
+    </div>
+  );
+}
+
+function PerformanceCard({ item }) {
+  const isPurple = item.color === "purple";
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lime-400">
+        {item.label}
+      </p>
+
+      <h4 className="mt-2 text-base font-black text-white sm:text-lg">
+        {item.value}
+      </h4>
+
+      <p className="mt-1 text-xs text-white/45">{item.detail}</p>
+
+      {item.storage ? (
+        <StorageBar />
+      ) : item.bars ? (
+        <MiniBars />
+      ) : (
+        <div className="mt-4 grid grid-cols-[58px_1fr] items-center gap-3 sm:grid-cols-[70px_1fr] sm:gap-4">
+          <div>
+            <LiveMetric value={item.metric} purple={isPurple} />
+            <p
+              className={`mt-1 font-mono text-[10px] ${
+                isPurple ? "text-fuchsia-300" : "text-lime-300"
+              }`}
+            >
+              En uso
+            </p>
+          </div>
+
+          <MiniGraph purple={isPurple} />
+        </div>
+      )}
+
+      <p className="mt-3 border-t border-white/10 pt-3 font-mono text-[10px] text-white/45">
+        {item.footer}
+      </p>
+    </div>
+  );
+}
+
+function LiveMetric({ value, purple }) {
+  const numeric = parseInt(value, 10);
+  const [current, setCurrent] = useState(numeric);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => {
+        const variation = Math.floor(Math.random() * 14) - 7;
+        let next = prev + variation;
+        if (next < 12) next = 12;
+        if (next > 96) next = 96;
+        return next;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.p
+      key={current}
+      initial={{ opacity: 0.5, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      className={`text-2xl font-black sm:text-3xl ${
+        purple ? "text-fuchsia-400" : "text-lime-400"
+      }`}
+    >
+      {current}%
+    </motion.p>
+  );
+}
+
+function MiniGraph({ purple = false }) {
+  const generatePoints = () =>
+    Array.from({ length: 18 }, () => Math.floor(Math.random() * 55) + 22);
+
+  const [points, setPoints] = useState(generatePoints());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPoints(generatePoints());
+    }, 900);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const polyline = points
+    .map((value, index) => {
+      const x = (index / (points.length - 1)) * 100;
+      const y = 100 - value;
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="relative h-20 overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:h-24">
+      <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.16)_1px,transparent_1px)] bg-[size:18px_18px]" />
+
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 h-full w-full"
+      >
+        <motion.polyline
+          key={polyline}
+          points={polyline}
+          fill="none"
+          stroke={purple ? "#e879f9" : "#a3e635"}
+          strokeWidth="2"
+          initial={{ opacity: 0.45 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        />
+      </svg>
+
+      <div className="absolute right-2 top-2 font-mono text-[8px] text-white/50">
+        100%
+      </div>
+      <div className="absolute right-2 top-1/2 font-mono text-[8px] text-white/50">
+        50%
+      </div>
+      <div className="absolute right-2 bottom-2 font-mono text-[8px] text-white/50">
+        0%
+      </div>
+    </div>
+  );
+}
+
+function StorageBar() {
+  return (
+    <div className="mt-5">
+      <div className="flex items-center gap-3">
+        <p className="text-2xl font-black text-lime-400 sm:text-3xl">42%</p>
+
+        <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/10">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: "42%" }}
+            transition={{ duration: 1 }}
+            className="h-full rounded-full bg-lime-400"
+          />
+        </div>
+      </div>
+
+      <p className="mt-1 font-mono text-[10px] text-lime-300">En uso</p>
+    </div>
+  );
+}
+
+function MiniBars() {
+  const [bars, setBars] = useState([
+    20, 55, 38, 78, 30, 48, 72, 26, 64, 42, 85, 35, 60, 44, 70,
+  ]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBars(Array.from({ length: 15 }, () => Math.floor(Math.random() * 70) + 20));
+    }, 900);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="mt-5 flex h-14 items-end gap-1 sm:h-16">
+      {bars.map((height, index) => (
+        <motion.div
+          key={index}
+          animate={{ height: `${height}%` }}
+          transition={{ duration: 0.35 }}
+          className="w-full rounded-t bg-lime-400"
+        />
+      ))}
+    </div>
+  );
+}
+
+function MiniStatus({ label, value }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/40 p-3">
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-1 font-bold text-lime-300">{value}</p>
+    </div>
   );
 }
 
@@ -593,22 +793,22 @@ function GamesLab({
   setSelectedGame,
 }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="mb-6 text-center">
+    <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
+      <div className="mb-5 text-center">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-lime-400">
           Games
         </p>
 
-        <h3 className="mt-2 text-3xl font-black">
+        <h3 className="mt-2 text-2xl font-black sm:text-3xl">
           {selectedGame === "tictactoe" ? "Ta-Te-Ti" : "Memory"}
         </h3>
 
-        <p className="mt-3 text-sm text-white/60">
+        <p className="mt-3 max-w-xl text-sm text-white/60">
           Mini juegos livianos, táctiles y pensados para funcionar perfecto en móvil.
         </p>
       </div>
 
-      <div className="mb-6 flex gap-3">
+      <div className="mb-5 flex gap-3">
         <button
           onClick={() => setSelectedGame("tictactoe")}
           className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest transition ${
@@ -745,9 +945,7 @@ function MemoryGame() {
           )
         );
 
-        setTimeout(() => {
-          setSelected([]);
-        }, 500);
+        setTimeout(() => setSelected([]), 500);
       } else {
         setLocked(true);
 
@@ -812,6 +1010,78 @@ function MemoryGame() {
         <RotateCcw size={14} />
         Reiniciar
       </button>
+    </div>
+  );
+}
+
+function FakeTerminal() {
+  return (
+    <div className="w-full rounded-2xl border border-lime-400/20 bg-black/80 p-5 font-mono text-sm text-lime-300">
+      <div className="mb-4 flex items-center gap-2 border-b border-lime-400/10 pb-3">
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-lime-400" />
+        <span className="ml-3 text-xs uppercase tracking-[0.25em] text-white/40">
+          nelson-os terminal
+        </span>
+      </div>
+
+      <div className="space-y-3 text-left">
+        <p>
+          <span className="text-lime-500">C:\NelsonOS&gt;</span> npm run dev
+        </p>
+        <p className="pl-4 text-white/55">VITE v7.3.1 ready in 428 ms</p>
+
+        <p>
+          <span className="text-lime-500">C:\NelsonOS&gt;</span> loading modules
+        </p>
+        <p className="pl-4 text-white/55">✓ games.lab.module loaded</p>
+        <p className="pl-4 text-white/55">✓ virtual.machine.interface active</p>
+        <p className="pl-4 text-white/55">✓ portfolio.runtime online</p>
+
+        <p>
+          <span className="text-lime-500">C:\NelsonOS&gt;</span> status
+        </p>
+        <p className="pl-4 text-lime-300">
+          SYSTEM ONLINE · INTERACTIVE MODE ACTIVE
+        </p>
+
+        <p className="pt-2">
+          <span className="text-lime-500">C:\NelsonOS&gt;</span>{" "}
+          <span className="inline-block h-4 w-2 animate-pulse bg-lime-300 align-middle" />
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function FileExplorer({ files = [] }) {
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      {files.map((file, index) => {
+        const isFolder = file.type === "folder";
+
+        return (
+          <button
+            key={index}
+            className="group flex flex-col items-center rounded-2xl border border-white/10 bg-black/40 p-5 transition hover:border-lime-400/40 hover:bg-lime-400/10"
+          >
+            <div
+              className={`flex h-16 w-16 items-center justify-center rounded-2xl ${
+                isFolder
+                  ? "bg-lime-400/10 text-lime-300"
+                  : "bg-white/5 text-white/70"
+              }`}
+            >
+              {isFolder ? <Folder size={30} /> : <FileText size={28} />}
+            </div>
+
+            <span className="mt-3 text-center font-mono text-xs text-white/70 group-hover:text-lime-300">
+              {file.name}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }

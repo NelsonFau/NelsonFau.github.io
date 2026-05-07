@@ -50,7 +50,7 @@ const projects = [
     title: "QRFlat",
     type: "Proyecto propio",
     image: QRFlat,
-    url: "https://tu-url.com",
+    url: "./",
     description:
       "Sistema para gestionar planos PDF mediante códigos QR estables, evitando errores de versión.",
     tech: ["Python", "FastAPI", "QR"],
@@ -93,6 +93,8 @@ export default function App() {
             >
               Ver proyectos
             </a>
+
+            <SystemAccess />
           </div>
         </div>
       </section>
@@ -235,10 +237,10 @@ export default function App() {
                 <FaJava className="text-red-500" />
                 <SiPython className="text-yellow-400" />
                 <SiDotnet />
-               <img
-                src={genexus}
-                alt="GeneXus"
-                className="w-10 h-10 object-contain"
+                <img
+                  src={genexus}
+                  alt="GeneXus"
+                  className="w-10 h-10 object-contain"
                 />
                 
                 
@@ -256,22 +258,22 @@ export default function App() {
               />
             </div>
 
-           <div className="bg-white/[0.06] p-7 rounded-3xl border border-white/10 backdrop-blur-xl hover:border-lime-300/30 transition">
-  <h3 className="text-xl font-bold mb-5 text-lime-300">Otros</h3>
+            <div className="bg-white/[0.06] p-7 rounded-3xl border border-white/10 backdrop-blur-xl hover:border-lime-300/30 transition">
+              <h3 className="text-xl font-bold mb-5 text-lime-300">Otros</h3>
 
-            <div className="flex items-center gap-5">
-              <img
-                src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png"
-                alt="Vercel"
-                className="w-8 h-8 object-contain"
-              />
+              <div className="flex items-center gap-5">
+                <img
+                  src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png"
+                  alt="Vercel"
+                  className="w-8 h-8 object-contain"
+                />
 
-              <img
-                src="https://avatars.githubusercontent.com/u/2092016?s=200&v=4"
-                alt="xUnit"
-                className="w-10 h-10 rounded object-contain"
-              />
-            </div>
+                <img
+                  src="https://avatars.githubusercontent.com/u/2092016?s=200&v=4"
+                  alt="xUnit"
+                  className="w-10 h-10 rounded object-contain"
+                />
+              </div>
             </div>
             
           </div>
@@ -326,8 +328,8 @@ export default function App() {
           </div>
         </div>
       </section>
-      <SystemAccess />
+     
 
     </main>
   );
-}
+};
