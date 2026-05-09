@@ -415,34 +415,31 @@ const [startMenuOpen, setStartMenuOpen] = useState(false);
       initial={{ opacity: 0, y: 18, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 18, scale: 0.96 }}
-                className="absolute bottom-14 left-3 right-3 z-40 max-h-[70vh] overflow-hidden rounded-3xl border border-lime-400/20 bg-black/85 shadow-[0_0_70px_rgba(132,204,22,0.18)] backdrop-blur-2xl sm:left-4 sm:right-auto sm:w-[520px]"
+      className="absolute bottom-14 left-3 right-3 z-40 max-h-[70vh] overflow-hidden rounded-3xl border border-lime-400/20 bg-black/85 shadow-[0_0_70px_rgba(132,204,22,0.18)] backdrop-blur-2xl sm:left-4 sm:right-auto sm:w-[200px]"
+      >
+      <div className="grid  gap-3">
+      <aside className="border-r border-white/10 bg-white/[0.04] p-4">
+      <div className="space-y-2">
+        {desktopApps.map((app) => {
+          const Icon = app.icon;
+          return (
+            <button
+              key={app.id}
+              onClick={() => {
+                setActiveWindow(app);
+                setStartMenuOpen(false);
+              }}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-white/70 transition hover:bg-lime-400/10 hover:text-lime-300"
             >
-                                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2">
-                                          <aside className="border-r border-white/10 bg-white/[0.04] p-4">
+              <Icon size={18} />
+              {app.title}
+            </button>
+          );
+        })}
+      </div>
+      </aside>
 
-
-          <div className="space-y-2">
-            {desktopApps.map((app) => {
-              const Icon = app.icon;
-
-              return (
-                <button
-                  key={app.id}
-                  onClick={() => {
-                    setActiveWindow(app);
-                    setStartMenuOpen(false);
-                  }}
-                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-white/70 transition hover:bg-lime-400/10 hover:text-lime-300"
-                >
-                  <Icon size={18} />
-                  {app.title}
-                </button>
-              );
-            })}
-          </div>
-        </aside>
-
-        <main className="p-4">
+        {/* <main className="p-4">
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-white/35">
             Acceso rápido
           </p>
@@ -468,10 +465,8 @@ const [startMenuOpen, setStartMenuOpen] = useState(false);
                 </button>
               );
             })}
-          </div>
-
-          
-        </main>
+          </div> 
+        </main> */}
       </div>
     </motion.div>
   )}
