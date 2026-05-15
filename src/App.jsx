@@ -32,7 +32,7 @@ const projects = [
     title: "Fabbro Solutions",
     type: "Desarrollo web",
     image: fabbro,
-    url: "https://fabbro-solution-git-master-nelson-alvarezs-projects-b71a80d0.vercel.app/",
+    url: "http://fabbrosolutions.com",
     description:
       "Sitio web institucional para empresa industrial, enfocado en presencia digital, servicios y propuesta comercial.",
     tech: ["React", "Tailwind", "Framer Motion"],
